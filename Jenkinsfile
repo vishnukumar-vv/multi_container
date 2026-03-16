@@ -1,32 +1,40 @@
+
+
+      
 pipeline {
 
     agent any
 
     environment {
-        DOCKER_IMAGE = "vishnu/python-multi"
-        CONTAINER_NAME = "pythonmulti"
+        DOCKER_IMAGE = "8105577060/python-multi"
+        DOCKER_TAG = "latest"
     }
 
     stages {
 
         stage('Git Checkout') {
             steps {
-                git 'https://github.com/yourrepo/python-multi-ci.git'
+                git 'https://github.com/vishnukumar-vv/multi_container.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE ./app'
+                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG ./app'
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Docker Login') {
             steps {
                 sh '''
-                docker login -u YOUR_DOCKER_USER -p YOUR_DOCKER_PASS
-                docker push $DOCKER_IMAGE
+                docker login -u 8105577060 -p YOUR_DOCKER_PASSWORD
                 '''
+            }
+        }
+
+        stage('Push Image to DockerHub') {
+            steps {
+                sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
             }
         }
 
