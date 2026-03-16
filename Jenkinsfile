@@ -4,14 +4,14 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "8105577060/python-multi"
-        DOCKER_TAG = "latest"
+        DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG ./app'
+                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG -t $DOCKER_IMAGE:latest ./app'
             }
         }
 
@@ -31,15 +31,18 @@ pipeline {
 
         stage('Push Image') {
             steps {
-                sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
+                sh '''
+                docker push $DOCKER_IMAGE:$DOCKER_TAG
+                docker push $DOCKER_IMAGE:latest
+                '''
             }
         }
 
         stage('Deploy Multi Container') {
             steps {
                 sh '''
-                docker-compose down
-                docker-compose up -d
+                docker compose down
+                docker compose up -d
                 '''
             }
         }
