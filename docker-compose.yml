@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
 
   web:
-    image: vishnu/python-multi:latest
+    image: 8105577060/python-multi:latest
     ports:
       - "5000:5000"
     depends_on:
