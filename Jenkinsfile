@@ -9,12 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Git Checkout') {
-            steps {
-                git 'https://github.com/vishnukumar-vv/multi_container.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG ./app'
