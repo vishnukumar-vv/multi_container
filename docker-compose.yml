@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+
+  web:
+    image: vishnu/python-multi:latest
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - appnet
+
+  db:
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+volumes:
+  mongodata:
