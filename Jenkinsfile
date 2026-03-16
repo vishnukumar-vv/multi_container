@@ -1,9 +1,6 @@
-
-
-      
 pipeline {
 
-    agent any
+    agent { label 'dockergit' }
 
     environment {
         DOCKER_IMAGE = "8105577060/python-multi"
